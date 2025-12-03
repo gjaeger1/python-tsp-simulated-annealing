@@ -18,8 +18,15 @@ def animateTSP(history, points, temp_history=None, weight_history=None):
         history of cost function values during the annealing process
     """
 
+    # Print len() of histories for debugging
+    print(f"Length of history: {len(history)}")
+    print(f"Length of temp_history: {len(temp_history) if temp_history else 'N/A'}")
+    print(
+        f"Length of weight_history: {len(weight_history) if weight_history else 'N/A'}"
+    )
+
     # approx 1500 frames for animation
-    key_frames_mult = max(1, len(history) // 1500)
+    key_frames_mult = max(1, len(history) // 9000)
 
     # Create figure with three subplots
     fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(15, 5))
@@ -83,9 +90,13 @@ def animateTSP(history, points, temp_history=None, weight_history=None):
         actual_frame = frame * key_frames_mult
 
         # Update TSP path
-        if frame < len(history):
-            x = [points[i, 0] for i in history[frame] + [history[frame][0]]]
-            y = [points[i, 1] for i in history[frame] + [history[frame][0]]]
+        if actual_frame < len(history):
+            x = [
+                points[i, 0] for i in history[actual_frame] + [history[actual_frame][0]]
+            ]
+            y = [
+                points[i, 1] for i in history[actual_frame] + [history[actual_frame][0]]
+            ]
             line.set_data(x, y)
 
         # Update temperature plot
